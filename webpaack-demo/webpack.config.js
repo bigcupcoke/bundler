@@ -6,9 +6,13 @@ module.exports = {
     entry: {
         'a': './src/views/pageA/a.js',
         'acss': './src/views/pageA/a.css',
+    // entry: {
+    //     a: './src/common-chunck/a.js',
+    //     b: './src/common-chunck/b.js',
+    //     vendor: ['loadsh'],
     },
     devtool: 'inline-source-map',
-    mode: 'development',
+    // mode: 'development',
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist')
@@ -32,9 +36,14 @@ module.exports = {
     plugins: [
         new ExtractTextPlugin({
             filename: 'a.css',
+            minChunks: 2,
+            chunks: ['a', 'b']
+
+        }),
+
+        new webpack.optimize.CommonsChunkPlugin({
+            names: ['vendor', 'mainfest'],
+            minChunks: Infinity,
         }),
     ],
-    devServer: {
-        
-    },
 }

@@ -1,5 +1,9 @@
 Arguments: 
+<<<<<<< HEAD
   /usr/local/bin/node /usr/local/Cellar/yarn/1.9.4/libexec/bin/yarn.js add style-loader -
+=======
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.1.0/libexec/bin/yarn.js add CommonsChunkPlugin -D
+>>>>>>> 代码分割和加载
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -35,8 +39,12 @@ npm manifest:
     "author": "coke <dujun.sc@outlook.com>",
     "license": "MIT",
     "scripts": {
+<<<<<<< HEAD
       "dev": "webpack-dev-server --open",
       "build": "webpack --config webpack.config.js"
+=======
+      "dev": "webpack-dev-server --open"
+>>>>>>> 代码分割和加载
     },
     "devDependencies": {
       "babel-core": "6",
@@ -3676,7 +3684,11 @@ Lockfile:
   
   ts-loader@^5.1.0:
     version "5.1.1"
+<<<<<<< HEAD
     resolved "http://npm.int.jumei.com/ts-loader/-/ts-loader-5.1.1.tgz#361eeae3cc3c6f63d2e9f421dba90c4b14659aa6"
+=======
+    resolved "http://registry.npm.taobao.org/ts-loader/download/ts-loader-5.1.1.tgz#361eeae3cc3c6f63d2e9f421dba90c4b14659aa6"
+>>>>>>> 代码分割和加载
     dependencies:
       chalk "^2.3.0"
       enhanced-resolve "^4.0.0"
@@ -3705,7 +3717,11 @@ Lockfile:
   
   typescript@^3.0.3:
     version "3.0.3"
+<<<<<<< HEAD
     resolved "http://npm.int.jumei.com/typescript/-/typescript-3.0.3.tgz#4853b3e275ecdaa27f78fda46dc273a7eb7fc1c8"
+=======
+    resolved "http://registry.npm.taobao.org/typescript/download/typescript-3.0.3.tgz#4853b3e275ecdaa27f78fda46dc273a7eb7fc1c8"
+>>>>>>> 代码分割和加载
   
   uglify-es@^3.3.4:
     version "3.3.10"
@@ -4037,3 +4053,19 @@ Lockfile:
       which-module "^2.0.0"
       y18n "^3.2.1 || ^4.0.0"
       yargs-parser "^10.1.0"
+<<<<<<< HEAD
+=======
+
+Trace: 
+  Error: https://registry.npm.taobao.org/CommonsChunkPlugin: Not found
+      at Request.params.callback [as _callback] (/usr/local/Cellar/yarn/1.1.0/libexec/lib/cli.js:61779:18)
+      at Request.self.callback (/usr/local/Cellar/yarn/1.1.0/libexec/lib/cli.js:121917:22)
+      at emitTwo (events.js:125:13)
+      at Request.emit (events.js:213:7)
+      at Request.<anonymous> (/usr/local/Cellar/yarn/1.1.0/libexec/lib/cli.js:122900:10)
+      at emitOne (events.js:115:13)
+      at Request.emit (events.js:210:7)
+      at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.1.0/libexec/lib/cli.js:122820:12)
+      at Object.onceWrapper (events.js:314:30)
+      at emitNone (events.js:110:20)
+>>>>>>> 代码分割和加载
