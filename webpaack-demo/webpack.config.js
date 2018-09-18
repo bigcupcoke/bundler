@@ -1,10 +1,11 @@
+const webpack = require('webpack')
 const path = require('path')
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-    entry: './src/index.js',
+    // entry: './src/index.js',
     entry: {
-        'a': './src/views/pageA/a.js',
+        'a': ['./src/views/pageA/a.js', './src/views/pageB/b.js'],
         'acss': './src/views/pageA/a.css',
     // entry: {
     //     a: './src/common-chunck/a.js',
@@ -12,7 +13,7 @@ module.exports = {
     //     vendor: ['loadsh'],
     },
     devtool: 'inline-source-map',
-    // mode: 'development',
+    mode: 'development',
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist')
@@ -30,20 +31,25 @@ module.exports = {
                     fallback: "style-loader",
                     use: "css-loader"
                 })
-            }
+            },
+            {
+                test: /\.sass$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: ["css-loader", "sass-loader"]
+                })
+            },
         ]
     },
     plugins: [
         new ExtractTextPlugin({
-            filename: 'a.css',
-            minChunks: 2,
-            chunks: ['a', 'b']
-
+            filename: '[name]-[id].css',
+            allChunks: true
         }),
 
-        new webpack.optimize.CommonsChunkPlugin({
-            names: ['vendor', 'mainfest'],
-            minChunks: Infinity,
-        }),
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     names: ['vendor', 'mainfest'],
+        //     minChunks: Infinity,
+        // }),
     ],
 }
