@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     // entry: './src/index.js',
@@ -46,10 +47,14 @@ module.exports = {
             filename: '[name]-[id].css',
             allChunks: true
         }),
-
+        
+        new BundleAnalyzerPlugin()
         // new webpack.optimize.CommonsChunkPlugin({
         //     names: ['vendor', 'mainfest'],
         //     minChunks: Infinity,
         // }),
     ],
+    devServer: {
+
+    },
 }
