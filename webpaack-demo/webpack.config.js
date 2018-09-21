@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
     entry: {
@@ -42,6 +43,7 @@ const config = {
             allChunks: true
         }),
         
+        new HtmlWebpackPlugin(),
         // new BundleAnalyzerPlugin()
         // new optimize.CommonsChunkPlugin({
         //     names: ['vendor', 'mainfest'],
