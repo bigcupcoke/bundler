@@ -1,3 +1,7 @@
-// import './a.css'
+import './a.css'
 
-console.log(' AAAAAA')
+module.exports = {
+    appLunch: () => {
+        console.log(' AAAAAA')
+    }
+}

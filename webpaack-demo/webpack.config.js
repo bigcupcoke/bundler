@@ -1,20 +1,14 @@
-const webpack = require('webpack')
-const path = require('path')
+const { log, entryFromPath } = require('./utils');
+const webpack = require('webpack');
+const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-module.exports = {
-    // entry: './src/index.js',
+const config = {
     entry: {
-        'a': ['./src/views/pageA/a.js', './src/views/pageB/b.js'],
-        'acss': './src/views/pageA/a.css',
-    // entry: {
-    //     a: './src/common-chunck/a.js',
-    //     b: './src/common-chunck/b.js',
-    //     vendor: ['loadsh'],
+        
     },
     devtool: 'inline-source-map',
-    mode: 'development',
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist')
@@ -44,12 +38,12 @@ module.exports = {
     },
     plugins: [
         new ExtractTextPlugin({
-            filename: '[name]-[id].css',
+            filename: '[name].css',
             allChunks: true
         }),
         
-        new BundleAnalyzerPlugin()
-        // new webpack.optimize.CommonsChunkPlugin({
+        // new BundleAnalyzerPlugin()
+        // new optimize.CommonsChunkPlugin({
         //     names: ['vendor', 'mainfest'],
         //     minChunks: Infinity,
         // }),
@@ -58,3 +52,7 @@ module.exports = {
 
     },
 }
+
+config.entry = entryFromPath('./src/views/**/*.js');
+
+module.exports = config;

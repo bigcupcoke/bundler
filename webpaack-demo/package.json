@@ -6,24 +6,26 @@
   "author": "coke <dujun.sc@outlook.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --open",
-    "build": "webpack --config webpack.config.js"
+    "dev": "webpack-dev-server --mode development --config webpack.config.js --progress --watch",
+    "build": "webpack --mode production --config webpack.config.js --progress"
   },
   "devDependencies": {
     "babel-core": "6",
     "babel-loader": "7",
     "babel-preset-env": "^1.7.0",
+    "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^1.0.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "style-loader": "^0.23.0",
     "ts-loader": "^5.1.0",
     "typescript": "^3.0.3",
     "webpack": "^4.19.1",
+    "webpack-bundle-analyzer": "^3.0.2",
     "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.8",
-    "webpack-bundle-analyzer": "^3.0.2"
+    "webpack-dev-server": "^3.1.8"
   },
   "dependencies": {
-    "loadsh": "^0.0.2"
+    "glob": "^7.1.3",
+    "lodash": "^4.17.11"
   }
 }
