@@ -1,22 +1,40 @@
-const { log, entryFromPath } = require('./utils');
+const {
+    log,
+    entryFromPath
+} = require('./utils');
 const webpack = require('webpack');
 const path = require('path');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+
+const entry = entryFromPath('./src/views/**/*.js');
+const entryChunks = Object.keys(entry);
+const htmlPlugins = entryChunks.map(name => {
+    return new HtmlWebpackPlugin({
+        filename: `${name}.html`,
+        chunks: [name],
+        title: '',
+        // 压缩html
+        // minify: {
+        //     collapseWhitespace: true,
+        // },
+    })
+})
 
 const config = {
-    entry: {
-        
-    },
+    entry: entry,
+    // entry: {
+    //     a: './src/views/pageA/a.js',
+    // },
     devtool: 'inline-source-map',
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'dist/views')
     },
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.js$/,
                 use: 'babel-loader',
                 exclude: '/node_moudles/'
@@ -27,34 +45,64 @@ const config = {
                     fallback: "style-loader",
                     use: "css-loader"
                 })
+                // use: ['style-loader', 'css-loader'],
             },
             {
                 test: /\.sass$/,
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: ["css-loader", "sass-loader"]
-                })
+                }),
+                // use: ['style-loader', 'css-loader', 'sass-loader'],
             },
         ]
     },
+    optimization: {
+        splitChunks: {
+            minSize: 10,
+            minChunks: 1,
+            maxAsyncRequests: 5,
+            maxInitialRequests: 3,
+            automaticNameDelimiter: '~',
+            name: true,
+            cacheGroups: {
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -10,
+                    name: 'vendors',
+                    chunks: 'all'
+                },
+                commons: {
+                    name: 'commons',
+                    chunks: 'initial',
+                    minChunks: 1
+                },
+            }
+        },
+        runtimeChunk: {
+            name: 'manifest'
+        },
+    },
     plugins: [
+        new CleanWebpackPlugin('./dist'),
+
         new ExtractTextPlugin({
             filename: '[name].css',
             allChunks: true
         }),
-        
-        new HtmlWebpackPlugin(),
-        // new BundleAnalyzerPlugin()
+
+        new BundleAnalyzerPlugin(),
+
         // new optimize.CommonsChunkPlugin({
         //     names: ['vendor', 'mainfest'],
         //     minChunks: Infinity,
         // }),
     ],
     devServer: {
-
+        contentBase: path.join(__dirname, './dist'),
     },
 }
 
-config.entry = entryFromPath('./src/views/**/*.js');
+config.plugins = config.plugins.concat(htmlPlugins);
 
 module.exports = config;

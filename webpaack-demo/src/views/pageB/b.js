@@ -1,2 +1,5 @@
 import './b.css'
-console.log('BBBBB')
+
+import { log } from '../../utils'
+
+log('BBBBB')

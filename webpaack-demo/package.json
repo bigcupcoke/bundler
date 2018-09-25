@@ -6,8 +6,8 @@
   "author": "coke <dujun.sc@outlook.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --mode development --config webpack.config.js --progress --watch",
-    "build": "webpack --mode production --config webpack.config.js --progress"
+    "dev": "webpack-dev-server --mode development --config webpack.config.js --progress --watch --profile",
+    "build": "webpack --mode production --config webpack.config.js --progress --profile"
   },
   "devDependencies": {
     "babel-core": "6",
