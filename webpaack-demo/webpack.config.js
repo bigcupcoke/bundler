@@ -14,7 +14,7 @@ const entryChunks = Object.keys(entry);
 const htmlPlugins = entryChunks.map(name => {
     return new HtmlWebpackPlugin({
         filename: `${name}.html`,
-        chunks: [name],
+        chunks: [name, 'commons', 'vendors'],
         title: '',
         // 压缩html
         // minify: {
@@ -70,7 +70,7 @@ const config = {
                     test: /[\\/]node_modules[\\/]/,
                     priority: -10,
                     name: 'vendors',
-                    chunks: 'all'
+                    chunks: 'all',
                 },
                 commons: {
                     name: 'commons',
@@ -91,11 +91,8 @@ const config = {
             allChunks: true
         }),
 
-        new BundleAnalyzerPlugin(),
-
-        // new optimize.CommonsChunkPlugin({
-        //     names: ['vendor', 'mainfest'],
-        //     minChunks: Infinity,
+        // new BundleAnalyzerPlugin({
+        //     openAnalyzer: false,
         // }),
     ],
     devServer: {
