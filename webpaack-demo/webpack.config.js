@@ -11,10 +11,12 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const entry = entryFromPath('./src/views/**/*.js');
 const entryChunks = Object.keys(entry);
+
 const htmlPlugins = entryChunks.map(name => {
+    
     return new HtmlWebpackPlugin({
         filename: `${name}.html`,
-        chunks: [name, 'commons', 'vendors'],
+        chunks: [name, 'commons', 'vendor'],
         title: '',
         // 压缩html
         // minify: {
@@ -25,13 +27,10 @@ const htmlPlugins = entryChunks.map(name => {
 
 const config = {
     entry: entry,
-    // entry: {
-    //     a: './src/views/pageA/a.js',
-    // },
     devtool: 'inline-source-map',
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, 'dist/views')
+        path: path.resolve(__dirname, 'dist/views/')
     },
     module: {
         rules: [{
@@ -66,11 +65,11 @@ const config = {
             automaticNameDelimiter: '~',
             name: true,
             cacheGroups: {
-                vendors: {
+                chunks: 'all',
+                vendor: {
                     test: /[\\/]node_modules[\\/]/,
                     priority: -10,
-                    name: 'vendors',
-                    chunks: 'all',
+                    name: 'vendor',
                 },
                 commons: {
                     name: 'commons',
@@ -80,7 +79,7 @@ const config = {
             }
         },
         runtimeChunk: {
-            name: 'manifest'
+            name: 'runtime'
         },
     },
     plugins: [

@@ -6,7 +6,8 @@ const entryFromPath = (path) => {
     const files = glob.sync(path);
     const entry = {};
     files.forEach(filepath => {
-        const name = filepath.split('/').pop().split('.')[0];
+        const name = filepath.split('src/').pop().split('.')[0];
+        // log('filepath', filepath);
         entry[name] = filepath;
     });
     return entry;
