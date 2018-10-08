@@ -8,7 +8,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const entry = entryFromPath('./src/views/**/*.js');
 const entryChunks = Object.keys(entry);
 
@@ -40,19 +40,33 @@ const config = {
             },
             {
                 test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: "css-loader"
-                })
+                use: [
+                    {
+                      loader: MiniCssExtractPlugin.loader,
+                      options: {
+                        // you can specify a publicPath here
+                        // by default it use publicPath in webpackOptions.output
+                        // publicPath: '../'
+                      }
+                    },
+                    "css-loader"
+                  ]
                 // use: ['style-loader', 'css-loader'],
             },
             {
                 test: /\.sass$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: ["css-loader", "sass-loader"]
-                }),
-                // use: ['style-loader', 'css-loader', 'sass-loader'],
+                use: [
+                    {
+                      loader: MiniCssExtractPlugin.loader,
+                      options: {
+                        // you can specify a publicPath here
+                        // by default it use publicPath in webpackOptions.output
+                        // publicPath: '../'
+                      }
+                    },
+                    "css-loader",
+                    "sass-loader",
+                  ]
             },
         ]
     },
@@ -70,11 +84,12 @@ const config = {
                     test: /[\\/]node_modules[\\/]/,
                     priority: -10,
                     name: 'vendor',
+                    chunks: 'all',
                 },
                 commons: {
                     name: 'commons',
                     chunks: 'initial',
-                    minChunks: 1
+                    minChunks: 10000
                 },
             }
         },
@@ -85,10 +100,17 @@ const config = {
     plugins: [
         new CleanWebpackPlugin('./dist'),
 
-        new ExtractTextPlugin({
-            filename: '[name].css',
-            allChunks: true
-        }),
+        // new ExtractTextPlugin({
+        //     filename: '[name].css',
+        //     allChunks: true
+        // }),
+
+        new MiniCssExtractPlugin({
+            // Options similar to the same options in webpackOptions.output
+            // both options are optional
+            filename: "[name].css",
+            // chunkFilename: "[id].css"
+        })
 
         // new BundleAnalyzerPlugin({
         //     openAnalyzer: false,
