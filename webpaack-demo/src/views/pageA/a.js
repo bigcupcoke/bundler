@@ -4,9 +4,11 @@ import './a.css'
 import { log } from '../../utils'
 
 import _ from 'lodash'
+import $ from 'jquery'
 
-log(' AAAAAA')
+log(' AAAAAA', _, $)
 
+$('body').css('background', 'lightblue');
 
 module.exports = {
     appLunch: () => {

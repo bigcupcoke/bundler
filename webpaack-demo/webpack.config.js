@@ -12,12 +12,19 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const entry = entryFromPath('./src/views/**/*.js');
 const entryChunks = Object.keys(entry);
 
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+const smp = new SpeedMeasurePlugin();
+
 const htmlPlugins = entryChunks.map(name => {
-    
+
     return new HtmlWebpackPlugin({
         filename: `${name}.html`,
-        chunks: [name, 'commons', 'vendor'],
+        chunks: [name, 'commons'],
         title: '',
+        inject: true,
+        template: './index.html'
         // 压缩html
         // minify: {
         //     collapseWhitespace: true,
@@ -30,7 +37,7 @@ const config = {
     devtool: 'inline-source-map',
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, 'dist/views/')
+        path: path.resolve(__dirname, 'dist/')
     },
     module: {
         rules: [{
@@ -40,33 +47,31 @@ const config = {
             },
             {
                 test: /\.css$/,
-                use: [
-                    {
-                      loader: MiniCssExtractPlugin.loader,
-                      options: {
-                        // you can specify a publicPath here
-                        // by default it use publicPath in webpackOptions.output
-                        // publicPath: '../'
-                      }
+                use: [{
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            // you can specify a publicPath here
+                            // by default it use publicPath in webpackOptions.output
+                            // publicPath: '../'
+                        }
                     },
                     "css-loader"
-                  ]
+                ]
                 // use: ['style-loader', 'css-loader'],
             },
             {
                 test: /\.sass$/,
-                use: [
-                    {
-                      loader: MiniCssExtractPlugin.loader,
-                      options: {
-                        // you can specify a publicPath here
-                        // by default it use publicPath in webpackOptions.output
-                        // publicPath: '../'
-                      }
+                use: [{
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            // you can specify a publicPath here
+                            // by default it use publicPath in webpackOptions.output
+                            // publicPath: '../'
+                        }
                     },
                     "css-loader",
                     "sass-loader",
-                  ]
+                ]
             },
         ]
     },
@@ -79,7 +84,6 @@ const config = {
             automaticNameDelimiter: '~',
             name: true,
             cacheGroups: {
-                chunks: 'all',
                 vendor: {
                     test: /[\\/]node_modules[\\/]/,
                     priority: -10,
@@ -87,7 +91,7 @@ const config = {
                     chunks: 'all',
                 },
                 commons: {
-                    name: 'commons',
+                    name: 'common',
                     chunks: 'initial',
                     minChunks: 10000
                 },
@@ -110,17 +114,26 @@ const config = {
             // both options are optional
             filename: "[name].css",
             // chunkFilename: "[id].css"
-        })
+        }),
 
-        // new BundleAnalyzerPlugin({
-        //     openAnalyzer: false,
-        // }),
+        new BundleAnalyzerPlugin({
+            openAnalyzer: false,
+        }),
+
+        new webpack.DllReferencePlugin({
+            context: __dirname,
+            manifest: require('./vendor-manifest.json'),
+        }),
+
+        new CopyWebpackPlugin([
+            { from: 'static', to: 'static' }
+        ]),
     ],
     devServer: {
-        contentBase: path.join(__dirname, './dist'),
+        // contentBase: path.join(__dirname, './dist'),
     },
 }
 
 config.plugins = config.plugins.concat(htmlPlugins);
 
-module.exports = config;
+module.exports = smp.wrap(config);
